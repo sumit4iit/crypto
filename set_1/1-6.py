@@ -32,8 +32,13 @@ def hamming_distance(s1, s2):
     return cnt
 
 
+"""
+Returns dictionary of key_length and score.
+Lesser the score. better the chances are that
+keylenght is correct guess.
+"""
 def key_length(txt):
-    # Single iteratino works for now.
+    # Single iteration works for now.
     # TODO:// Add extra iterations and take avarage.
     dkt = {}
     for length in range(2,40):
@@ -42,6 +47,9 @@ def key_length(txt):
     return dkt
 
 
+"""
+Let's break the text in blocks of size of keylength.
+"""
 def transpose_blocks(txt, keyLen):
     lst = []
     for i in range(keyLen):
@@ -50,7 +58,35 @@ def transpose_blocks(txt, keyLen):
         lst[i%keyLen] = txt[i]
     return lst
 
+"""
+Bruteforce every key,
+more the number of resulting printable chars
+better the candidate key.
+"""
+def decrypt_byte_key(s):
+    mx = 0
+    key = '0'
+    for i in range(255):
+        cnt = 0
+        s2 = ''
+        for j in range(0,len(s),2):
+            res = int(s[j]+s[j+1],16) ^ i
+            s2+=str(hex(res)[2:])
+        s2 = s2.decode('hex')
+        for k in range(len(s2)):
+            if s2[k] in string.printable:
+                cnt+=1
+        if cnt>mx:
+            mx = cnt
+            key = hex(i)[2:]
 
+
+
+
+"""
+This section deals with the testing and implementing the
+entry points of the code.
+"""
 #Milestone 1. Make code agree to the hamming distance of 37.
 print hamming_distance("this is a test".encode('hex'),"wokka wokka!!!".encode('hex'))
 
