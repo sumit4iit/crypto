@@ -4,5 +4,6 @@ f = open('1-7.txt', 'r')
 cip = ''
 for line in f:
         cip += line
-
-        print obj.decrypt(cip.decode('base64'))
+print cip.decode('base64')
+print '-'*80
+print obj.decrypt(cip.decode('base64'))
